@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>إنشاء حساب جديد</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            text-align: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            max-width: 600px;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        input, select, button {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        a {
+            text-decoration: none;
+            display: block;
+            margin-top: 10px;
+            color: #007bff;
+        }
+        #message {
+            margin-top: 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>إنشاء حساب جديد</h1>
+        <form id="registrationForm">
+            <label for="fullname">الاسم ثلاثي بالعربي:</label>
+            <input type="text" id="fullname" name="fullname" required>
+
+            <label for="teamname">اسم الفريق:</label>
+            <select id="teamname" name="teamname" required>
+                <option value="" disabled selected>اختر فريقك</option>
+                <option value="فريق إنسان">🔵 فريق إنسان - مختص بمساعدة الأسر المستحقة</option>
+                <option value="فريق المعارض">🔵 فريق المعارض - مختص بالملابس</option>
+                <option value="فريق IT">🔵 فريق الـ IT - توثيق العمل باستخدام برامج تقنية</option>
+                <option value="فريق ابني">🔵 فريق ابني - التنمية ورفع الوعي لدى الأطفال</option>
+                <option value="فريق PR">🔵 فريق PR - التسويق للجمعية والتواصل مع المتبرعين</option>
+                <option value="تيم الزيارات">🔵 تيم الزيارات - المساعدة المعنوية مثل زيارة دور المسنين والأيتام</option>
+                <option value="فريق الميديا">🔵 فريق الميديا - التسويق عبر الجرافيك والتصميم</option>
+                <option value="فريق HR">🔵 فريق الـ HR - مسئول عن المتطوعين والتواصل معهم</option>
+            </select>
+
+            <label for="mobile">رقم الموبايل:</label>
+            <input type="text" id="mobile" name="mobile" required>
+
+            <label for="email">الإيميل:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">كلمة المرور:</label>
+            <input type="password" id="password" name="password" required>
+
+            <label for="confirm_password">تأكيد كلمة المرور:</label>
+            <input type="password" id="confirm_password" name="confirm_password" required>
+
+            <button type="submit">إرسال</button>
+        </form>
+
+        <!-- عنصر لعرض الرسائل -->
+        <div id="message"></div>
+    </div>
+
+    <script>
+        document.getElementById('registrationForm').addEventListener('submit', function (e) {
+            e.preventDefault(); // منع إعادة تحميل الصفحة
+
+            const formData = new FormData(this);
+
+            fetch('register.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                const messageElement = document.getElementById('message');
+                messageElement.textContent = data.message;
+
+                if (data.success) {
+                    messageElement.style.color = 'green';
+                    setTimeout(() => {
+                        window.location.href = 'index.html'; // إعادة التوجيه بعد 3 ثوانٍ
+                    }, 3000);
+                } else {
+                    messageElement.style.color = 'red';
+                }
+            })
+            .catch(error => {
+                console.error('حدث خطأ:', error);
+            });
+        });
+    </script>
+</body>
+</html>

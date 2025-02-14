@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدخال البيانات</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            margin-top: 20px;
+            color: #333;
+        }
+        .form-container {
+            width: 300px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <h1>إدخال البيانات إلى المخزن</h1>
+    <div class="form-container">
+        <form action="add_stock.php" method="POST">
+            <label for="item_name">اسم العنصر:</label>
+            <select id="item_name" name="item_name" required>
+                <!-- الخيارات ستتغير بناءً على الفئة -->
+            </select>
+            
+            <label for="quantity">الكمية:</label>
+            <input type="number" id="quantity" name="quantity" required>
+
+            <label for="category">الفئة:</label>
+            <select id="category" name="category" required onchange="updateItemOptions()">
+                <option value="money">المال</option>
+                <option value="food_clothes">الملابس والغذاء</option>
+            </select>
+
+            <button type="submit">إدخال البيانات</button>
+        </form>
+    </div>
+
+    <script>
+        // دالة لتحديث الخيارات في القائمة المنسدلة بناءً على الفئة المختارة
+        function updateItemOptions() {
+            var category = document.getElementById("category").value;
+            var itemSelect = document.getElementById("item_name");
+            
+            // إعادة تعيين الخيارات في القائمة
+            itemSelect.innerHTML = '';
+
+            // إضافة الخيارات بناءً على الفئة
+            if (category == "money") {
+                var options = [
+                    { value: "الحفة", text: "الحفة" },
+                    { value: "المشاريع", text: "المشاريع" },
+                    { value: "مساعدات غذائية", text: "مساعدات غذائية" },
+                    { value: "وصلات مياه", text: "وصلات مياه" },
+                    { value: "مساعدات مالية", text: "مساعدات مالية" },
+                    { value: "الأسقف", text: "الأسقف" },
+                    { value: "الكراتين", text: "الكراتين" },
+                    { value: "اخرى", text: "أخرى" }
+                ];
+            } else if (category == "food_clothes") {
+                var options = [
+                    { value: "ملابس", text: "ملابس" },
+                    { value: "غذاء", text: "غذاء" }
+                ];
+            }
+
+            // إضافة الخيارات إلى القائمة المنسدلة
+            options.forEach(function(option) {
+                var opt = document.createElement("option");
+                opt.value = option.value;
+                opt.textContent = option.text;
+                itemSelect.appendChild(opt);
+            });
+        }
+
+        // استدعاء الدالة لتحديث الخيارات عند تحميل الصفحة
+        window.onload = updateItemOptions;
+    </script>
+</body>
+</html>
+
+
+
+
